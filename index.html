@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sukardi Bangunan Grub - Kuis Hafalan Barang Toko Bangunan</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              dark: '#0f172a',
+              navy: '#1e293b',
+              amber: '#f59e0b',
+              amberDark: '#d97706',
+              orange: '#ea580c',
+              wa: '#25D366',
+              waDark: '#128C7E',
+            }
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-amber-200 selection:text-slate-900">
+
+  <!-- Header Aplikasi -->
+  <header class="bg-slate-900 text-white shadow-md sticky top-0 z-30 border-b-4 border-amber-500">
+    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-3">
+        <!-- Logo Ikon Bangunan SVG -->
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 to-amber-500 text-slate-900 flex items-center justify-center shadow-inner shrink-0 border border-amber-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 20h20" />
+            <path d="M4 20V9l8-6 8 6v11" />
+            <path d="M9 20v-6h6v6" />
+            <path d="M10 9h4" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-sm sm:text-base font-extrabold tracking-wide text-amber-400 leading-tight">
+            SUKARDI BANGUNAN GRUB
+          </h1>
+          <p class="text-[11px] sm:text-xs text-slate-200 font-semibold tracking-tight">
+            KUIS HARIAN HAFALAN BARANG - WAKTU LUANG
+          </p>
+        </div>
+      </div>
+      <button id="btnHeaderHome" onclick="confirmBackToHome()" class="hidden text-xs font-bold bg-slate-800 hover:bg-slate-700 text-amber-300 px-3 py-2 rounded-lg border border-slate-700 transition shrink-0">
+        Beranda
+      </button>
+    </div>
+  </header>
+
+  <!-- Kontainer Utama Mobile-First -->
+  <main class="flex-1 w-full max-w-xl mx-auto px-4 py-5 sm:py-6">
+
+    <!-- ========================================================= -->
+    <!-- 1. LAYAR AWAL (INPUT IDENTITAS & PILIH PAKET KUIS)        -->
+    <!-- ========================================================= -->
+    <section id="screenStart" class="space-y-5">
+      <!-- Kartu Sambutan -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6">
+        <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-400 text-slate-950 text-xs font-extrabold tracking-wide mb-3 shadow-xs">
+          <span>TEBAK BARANG & FUNGSINYA!</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug">
+          Siap Hafal Barang & Layani Pelanggan Lebih Cepat!
+        </h2>
+        <p class="text-sm text-slate-600 mt-1.5 leading-relaxed">
+          Isi data diri di bawah, amati ilustrasi gambar produk pada setiap skenario pelanggan, lalu kirim rekap hasil langsung ke grup WhatsApp toko.
+        </p>
+
+        <!-- Form Identitas -->
+        <div class="mt-5 space-y-4">
+          <!-- Nama Karyawan -->
+          <div>
+            <label for="inputEmployeeName" class="block text-sm font-bold text-slate-700 mb-1.5">
+              Nama Karyawan <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="inputEmployeeName"
+              placeholder="Contoh: Rudianto / Siti"
+              autocomplete="name"
+              class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-base font-medium transition"
+            />
+            <p id="nameErrorMsg" class="hidden text-xs font-semibold text-red-600 mt-1.5">
+              Mohon isi nama karyawan terlebih dahulu sebelum memulai kuis.
+            </p>
+          </div>
+
+          <!-- Pilihan Cabang Toko -->
+          <div>
+            <label class="block text-sm font-bold text-slate-700 mb-1.5">
+              Cabang Toko
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" id="branchButtons">
+              <button type="button" data-branch="UD Konco Tani" onclick="selectBranch('UD Konco Tani')" class="branch-btn active px-3 py-2.5 rounded-xl border-2 border-amber-500 bg-amber-50 text-slate-900 font-bold text-sm text-center transition">
+                UD Konco Tani
+              </button>
+              <button type="button" data-branch="UD Jaya Abadi" onclick="selectBranch('UD Jaya Abadi')" class="branch-btn px-3 py-2.5 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-300 text-slate-700 font-semibold text-sm text-center transition">
+                UD Jaya Abadi
+              </button>
+              <button type="button" data-branch="UD Sido Makmur" onclick="selectBranch('UD Sido Makmur')" class="branch-btn px-3 py-2.5 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-300 text-slate-700 font-semibold text-sm text-center transition">
+                UD Sido Makmur
+              </button>
+            </div>
+          </div>
+
+          <!-- Pilihan Paket Kuis -->
+          <div>
+            <label class="block text-sm font-bold text-slate-700 mb-1.5">
+              Pilih Paket Kuis Hafalan (Dilengkapi Gambar Produk)
+            </label>
+            <div class="space-y-2.5" id="packageList">
+              <!-- Paket 1 -->
+              <label class="pkg-card flex items-start gap-3 p-3.5 rounded-xl border-2 border-amber-500 bg-amber-50/70 cursor-pointer transition" onclick="selectPackage('paket1')">
+                <input type="radio" name="quizPackage" value="paket1" checked class="mt-1 accent-amber-600 w-4 h-4" />
+                <div class="flex-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="font-bold text-slate-900 text-sm">Paket 1: Dasar & Harian Toko</span>
+                    <span class="text-xs font-bold px-2 py-0.5 rounded-md bg-amber-200 text-amber-900 shrink-0">10 Soal</span>
+                  </div>
+                  <p class="text-xs text-slate-600 mt-0.5">Pipa PVC AW/D, sekrup baja ringan & gypsum, seal tape, dynabolt, & potong keramik.</p>
+                </div>
+              </label>
+
+              <!-- Paket 2 -->
+              <label class="pkg-card flex items-start gap-3 p-3.5 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition" onclick="selectPackage('paket2')">
+                <input type="radio" name="quizPackage" value="paket2" class="mt-1 accent-amber-600 w-4 h-4" />
+                <div class="flex-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="font-bold text-slate-900 text-sm">Paket 2: Teknis, Cat & Material Struktur</span>
+                    <span class="text-xs font-bold px-2 py-0.5 rounded-md bg-slate-200 text-slate-700 shrink-0">10 Soal</span>
+                  </div>
+                  <p class="text-xs text-slate-600 mt-0.5">Besi hollow, zinc chromate, waterproofing, mata bor widia, kawat bendrat, & sealant.</p>
+                </div>
+              </label>
+
+              <!-- Paket Campuran -->
+              <label class="pkg-card flex items-start gap-3 p-3.5 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition" onclick="selectPackage('campuran')">
+                <input type="radio" name="quizPackage" value="campuran" class="mt-1 accent-amber-600 w-4 h-4" />
+                <div class="flex-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="font-bold text-slate-900 text-sm">Paket Campuran Acak (Semua Kategori)</span>
+                    <span class="text-xs font-bold px-2 py-0.5 rounded-md bg-slate-200 text-slate-700 shrink-0">10 Soal</span>
+                  </div>
+                  <p class="text-xs text-slate-600 mt-0.5">10 soal acak dari seluruh bank soal bergambar (22 produk toko bangunan).</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Tombol Mulai Kuis -->
+          <button
+            type="button"
+            onclick="startQuiz()"
+            class="w-full py-3.5 px-5 rounded-xl bg-amber-400 hover:bg-amber-500 active:scale-[0.99] text-slate-950 font-extrabold text-base shadow-md shadow-amber-500/20 flex items-center justify-center gap-2 transition"
+          >
+            <span>Mulai Kuis Bergambar</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Riwayat Skor Lokal di Perangkat Ini -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-extrabold text-slate-800 flex items-center gap-2">
+            <span>📋</span>
+            <span>Riwayat Nilai Latihan (Perangkat Ini)</span>
+          </h3>
+          <button id="btnClearHistory" onclick="clearHistory()" class="hidden text-xs font-semibold text-slate-400 hover:text-red-600 transition">
+            Hapus Riwayat
+          </button>
+        </div>
+        <div id="historyContainer" class="space-y-2 text-sm text-slate-500">
+          <p class="text-xs text-slate-400 italic">Belum ada riwayat kuis tersimpan di HP ini.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- 2. LAYAR KUIS INTERAKTIF BERGAMBAR                        -->
+    <!-- ========================================================= -->
+    <section id="screenQuiz" class="hidden space-y-4">
+      <!-- Info Karyawan & Progress Bar -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-3.5 sm:p-4">
+        <div class="flex items-center justify-between text-xs font-bold text-slate-600 mb-2">
+          <span id="quizPlayerBadge" class="truncate max-w-[62%] text-slate-900">Rudi • UD Konco Tani</span>
+          <span id="quizProgressText" class="text-slate-950 bg-amber-400 px-2.5 py-0.5 rounded-full font-extrabold">Soal 1 / 10</span>
+        </div>
+        <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+          <div id="quizProgressBar" class="h-full bg-amber-500 rounded-full transition-all duration-300" style="width: 10%"></div>
+        </div>
+      </div>
+
+      <!-- Kartu Soal Bergaya Poster Referensi -->
+      <div class="bg-slate-50 rounded-2xl shadow-sm border-2 border-slate-300 overflow-hidden">
+        <!-- Header Kuning Kartu Soal -->
+        <div class="bg-amber-400 px-4 py-2.5 flex items-center justify-between border-b border-amber-500/40">
+          <span id="questionHeaderTag" class="text-xs sm:text-sm font-extrabold uppercase tracking-wide text-slate-950">
+            SOAL 1: KATEGORI BARANG
+          </span>
+          <span id="questionHintBadge" class="text-[11px] font-bold bg-slate-900 text-amber-300 px-2.5 py-0.5 rounded-full">
+            Amati Fisik Barang
+          </span>
+        </div>
+
+        <div class="p-4 sm:p-5 space-y-4">
+          <!-- Kotak Ilustrasi Gambar Barang + Pertanyaan Skenario -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-2xs">
+            <!-- Frame Gambar Produk SVG -->
+            <div class="sm:col-span-5 flex flex-col items-center">
+              <div id="questionImageBox" class="w-full aspect-square max-w-[190px] sm:max-w-none rounded-xl bg-gradient-to-b from-slate-100 to-slate-200/80 border border-slate-300 p-2.5 flex items-center justify-center shadow-inner overflow-hidden">
+                <!-- Ilustrasi SVG Produk dirender dinamis -->
+              </div>
+              <span id="imageCaptionTag" class="mt-1.5 text-[11px] font-bold text-slate-500 text-center">
+                🔍 Petunjuk Visual Produk
+              </span>
+            </div>
+
+            <!-- Teks Skenario Pelanggan -->
+            <div class="sm:col-span-7 space-y-2">
+              <span class="inline-block text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
+                Skenario Pelanggan / Tukang
+              </span>
+              <h2 id="questionText" class="text-sm sm:text-base font-bold text-slate-900 leading-relaxed">
+                Memuat soal...
+              </h2>
+            </div>
+          </div>
+
+          <!-- 4 Pilihan Jawaban dengan Ikon / Badge Visual -->
+          <div id="optionsContainer" class="space-y-2.5">
+            <!-- Tombol pilihan A, B, C, D dirender via JS -->
+          </div>
+
+          <!-- Kotak Umpan Balik + Gambar Detail Jawaban Setelah Menjawab -->
+          <div id="feedbackBox" class="hidden rounded-xl p-4 border-2 space-y-3 transition-all">
+            <div class="flex items-center gap-2 font-extrabold text-sm" id="feedbackTitle">
+              <!-- Diisi dinamis -->
+            </div>
+            <div class="flex items-start gap-3 bg-white/90 p-3 rounded-lg border border-slate-200/80">
+              <div id="feedbackMiniSvg" class="w-16 h-16 rounded-lg bg-slate-100 border border-slate-300 p-1.5 shrink-0 flex items-center justify-center">
+                <!-- Gambar barang jawaban benar -->
+              </div>
+              <div class="space-y-1">
+                <p id="feedbackProductLabel" class="text-xs font-extrabold uppercase tracking-wide text-slate-900">
+                  <!-- Nama Barang -->
+                </p>
+                <p id="feedbackExplanation" class="text-xs sm:text-sm leading-relaxed text-slate-700">
+                  <!-- Penjelasan fungsi barang -->
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tombol Soal Berikutnya -->
+          <button
+            id="btnNextQuestion"
+            type="button"
+            onclick="nextQuestion()"
+            class="hidden w-full py-3.5 px-5 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-[0.99] text-white font-bold text-base shadow-md flex items-center justify-center gap-2 transition"
+          >
+            <span id="btnNextLabel">Soal Berikutnya</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- 3. LAYAR HASIL & REKAP WHATSAPP                           -->
+    <!-- ========================================================= -->
+    <section id="screenResult" class="hidden space-y-5">
+      <!-- Kartu Skor Utama -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 text-center space-y-4">
+        <div id="resultBadgeIcon" class="w-16 h-16 mx-auto rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-3xl shadow-inner">
+          🏆
+        </div>
+
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Hasil Kuis Hafalan Barang</p>
+          <h2 id="resultPredicate" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">
+            Siap Melayani Pelanggan!
+          </h2>
+          <p id="resultMeta" class="text-xs sm:text-sm text-slate-600 font-medium mt-1">
+            Rudi • UD Konco Tani • Paket 1
+          </p>
+        </div>
+
+        <!-- Angka Skor -->
+        <div class="bg-slate-900 text-white rounded-2xl p-4 grid grid-cols-3 divide-x divide-slate-700">
+          <div>
+            <p class="text-xs text-slate-400">Nilai</p>
+            <p id="resultScorePoints" class="text-2xl font-extrabold text-amber-400">90</p>
+          </div>
+          <div>
+            <p class="text-xs text-slate-400">Benar</p>
+            <p id="resultCorrectCount" class="text-2xl font-extrabold text-emerald-400">9/10</p>
+          </div>
+          <div>
+            <p class="text-xs text-slate-400">Status</p>
+            <p id="resultStatusLabel" class="text-sm font-extrabold text-white mt-1.5">LULUS</p>
+          </div>
+        </div>
+
+        <!-- Preview Teks Laporan WhatsApp -->
+        <div class="text-left bg-slate-50 border border-slate-200 rounded-xl p-3.5">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs font-bold text-slate-600">Preview Laporan untuk Grup WA Toko:</span>
+            <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">Siap Kirim</span>
+          </div>
+          <pre id="waPreviewText" class="text-xs text-slate-700 whitespace-pre-wrap font-sans leading-relaxed bg-white p-3 rounded-lg border border-slate-200"></pre>
+        </div>
+
+        <!-- Tombol Utama Kirim ke WhatsApp -->
+        <div class="space-y-2.5 pt-1">
+          <a
+            id="btnShareWhatsApp"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full py-3.5 px-5 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] active:scale-[0.99] text-slate-950 font-extrabold text-base shadow-md shadow-emerald-500/20 flex items-center justify-center gap-2.5 transition"
+          >
+            <!-- Ikon WhatsApp SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+            </svg>
+            <span>Kirim Jawaban ke Grup WA</span>
+          </a>
+
+          <!-- Tombol Salin Teks Hasil -->
+          <button
+            type="button"
+            onclick="copyResultText()"
+            class="w-full py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-[0.99] text-slate-800 font-bold text-sm border border-slate-300 flex items-center justify-center gap-2 transition"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+              <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+            </svg>
+            <span>Salin Teks Hasil</span>
+          </button>
+
+          <!-- Tombol Ulangi / Ganti Paket -->
+          <div class="grid grid-cols-2 gap-2.5 pt-1">
+            <button
+              type="button"
+              onclick="retrySameQuiz()"
+              class="py-3 px-3 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-sm transition"
+            >
+              Ulangi Kuis
+            </button>
+            <button
+              type="button"
+              onclick="goToHome()"
+              class="py-3 px-3 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm transition"
+            >
+              Ganti Paket Soal
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ringkasan Jawaban Benar & Salah dengan Gambar Barang -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-3">
+        <h3 class="text-sm font-extrabold text-slate-900">Ringkasan Gambar & Kunci Jawaban</h3>
+        <div id="reviewList" class="space-y-3">
+          <!-- Daftar evaluasi tiap soal beserta gambar produk -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast / Pesan Notifikasi Non-Blocking (Pengganti alert) -->
+  <div id="toastMessage" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden bg-slate-900 text-white text-xs sm:text-sm font-semibold px-4 py-3 rounded-xl shadow-lg border border-slate-700 items-center gap-2">
+    <span id="toastIcon">✅</span>
+    <span id="toastText">Teks hasil berhasil disalin!</span>
+  </div>
+
+  <!-- Modal Konfirmasi Kembali ke Beranda (Pengganti confirm) -->
+  <div id="confirmModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl border border-slate-200 space-y-4">
+      <h3 class="text-base font-extrabold text-slate-900">Kembali ke Beranda?</h3>
+      <p class="text-sm text-slate-600">Progres kuis yang sedang berjalan akan direset jika Anda kembali ke halaman awal.</p>
+      <div class="grid grid-cols-2 gap-2.5">
+        <button type="button" onclick="closeConfirmModal()" class="py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm">
+          Lanjut Kuis
+        </button>
+        <button type="button" onclick="confirmGoHomeAction()" class="py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm">
+          Ya, Keluar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-200 text-center text-[11px] sm:text-xs font-bold py-3.5 px-4 border-t-2 border-amber-500">
+    MAKIN HAFAL BARANG, MAKIN SIGAP MELAYANI PELANGGAN! - SUKARDI BANGUNAN GRUB
+  </footer>
+
+  <!-- ========================================================= -->
+  <!-- LOGIKA APLIKASI, ILUSTRASI SVG PRODUK & BANK SOAL (22)    -->
+  <!-- ========================================================= -->
+  <script>
+    /**
+     * Pustaka Ilustrasi SVG Produk Toko Bangunan yang Realistis & Tajam
+     * Setiap barang memiliki ilustrasi SVG khusus agar karyawan hafal bentuk fisik aslinya.
+     */
+    const PRODUCT_SVGS = {
+      pvc_aw: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <defs>
+            <linearGradient id="pvcBlueGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#38bdf8"/>
+              <stop offset="45%" stop-color="#0284c7"/>
+              <stop offset="100%" stop-color="#0369a1"/>
+            </linearGradient>
+          </defs>
+          <!-- Pipa Utama Biru Tebal -->
+          <path d="M18 52 L106 32 L118 66 L30 86 Z" fill="url(#pvcBlueGrad)" stroke="#0c4a6e" stroke-width="2"/>
+          <!-- Penampang Dinding Tebal -->
+          <ellipse cx="24" cy="69" rx="11" ry="18" transform="rotate(-13 24 69)" fill="#bae6fd" stroke="#0c4a6e" stroke-width="2.5"/>
+          <ellipse cx="24" cy="69" rx="6" ry="11" transform="rotate(-13 24 69)" fill="#0f172a"/>
+          <!-- Pipa Kedua di Belakang -->
+          <path d="M36 88 L118 70 L126 98 L44 116 Z" fill="url(#pvcBlueGrad)" stroke="#0c4a6e" stroke-width="2"/>
+          <ellipse cx="40" cy="102" rx="10" ry="15" transform="rotate(-13 40 102)" fill="#bae6fd" stroke="#0c4a6e" stroke-width="2.5"/>
+          <ellipse cx="40" cy="102" rx="5.5" ry="9" transform="rotate(-13 40 102)" fill="#0f172a"/>
+          <!-- Garis Tekanan Tinggi -->
+          <path d="M46 56 L96 45" stroke="#e0f2fe" stroke-width="2.5" stroke-dasharray="5 3" stroke-linecap="round"/>
+          <rect x="64" y="92" width="66" height="20" rx="5" fill="#0f172a"/>
+          <text x="97" y="105" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">TEBAL / TEKANAN</text>
+        </svg>`,
+
+      pvc_d: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <defs>
+            <linearGradient id="pvcGreyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#cbd5e1"/>
+              <stop offset="50%" stop-color="#64748b"/>
+              <stop offset="100%" stop-color="#334155"/>
+            </linearGradient>
+          </defs>
+          <!-- Pipa PVC Abu-Abu Dinding Sedang/Tipis -->
+          <path d="M16 56 L108 36 L120 72 L28 92 Z" fill="url(#pvcGreyGrad)" stroke="#1e293b" stroke-width="2"/>
+          <ellipse cx="22" cy="74" rx="11" ry="19" transform="rotate(-12 22 74)" fill="#e2e8f0" stroke="#1e293b" stroke-width="2"/>
+          <ellipse cx="22" cy="74" rx="8.5" ry="15" transform="rotate(-12 22 74)" fill="#0f172a"/>
+          <!-- Pipa Bawah -->
+          <path d="M38 92 L120 74 L128 102 L46 120 Z" fill="url(#pvcGreyGrad)" stroke="#1e293b" stroke-width="2"/>
+          <ellipse cx="42" cy="106" rx="9" ry="15" transform="rotate(-12 42 106)" fill="#e2e8f0" stroke="#1e293b" stroke-width="2"/>
+          <ellipse cx="42" cy="106" rx="7" ry="11.5" transform="rotate(-12 42 106)" fill="#0f172a"/>
+          <rect x="60" y="94" width="70" height="20" rx="5" fill="#0f172a"/>
+          <text x="95" y="107" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="bold">SALURAN LIMBAH</text>
+        </svg>`,
+
+      screw_roofing: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <defs>
+            <linearGradient id="steelScrew" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#f8fafc"/>
+              <stop offset="50%" stop-color="#94a3b8"/>
+              <stop offset="100%" stop-color="#475569"/>
+            </linearGradient>
+          </defs>
+          <!-- Kepala Hex + Ring Karet EPDM -->
+          <g transform="rotate(-35 70 70)">
+            <rect x="22" y="54" width="16" height="32" rx="3" fill="url(#steelScrew)" stroke="#1e293b" stroke-width="2"/>
+            <line x1="22" y1="64" x2="38" y2="64" stroke="#334155" stroke-width="1.5"/>
+            <line x1="22" y1="76" x2="38" y2="76" stroke="#334155" stroke-width="1.5"/>
+            <!-- Ring Karet Hitam -->
+            <rect x="38" y="50" width="7" height="40" rx="2" fill="#1e293b"/>
+            <!-- Batang & Ulir Rapat -->
+            <rect x="45" y="61" width="54" height="18" fill="url(#steelScrew)" stroke="#334155" stroke-width="1.5"/>
+            <path d="M50 58 L54 82 M58 58 L62 82 M66 58 L70 82 M74 58 L78 82 M82 58 L86 82 M90 58 L94 82" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Ujung Mata Bor (Self-Drilling) -->
+            <path d="M99 61 L122 70 L99 79 Z" fill="#64748b" stroke="#0f172a" stroke-width="2"/>
+            <line x1="102" y1="66" x2="116" y2="70" stroke="#f8fafc" stroke-width="1.5"/>
+          </g>
+          <rect x="52" y="110" width="78" height="20" rx="5" fill="#0f172a"/>
+          <text x="91" y="123" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">UJUNG MATA BOR</text>
+        </svg>`,
+
+      screw_gypsum: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <g transform="rotate(-35 70 70)">
+            <!-- Kepala Terompet Hitam Fosfat -->
+            <path d="M22 48 L36 62 L36 78 L22 92 Z" fill="#1e293b" stroke="#020617" stroke-width="2"/>
+            <!-- Batang Hitam & Ulir Tajam -->
+            <rect x="36" y="64" width="66" height="12" fill="#334155"/>
+            <path d="M42 60 L46 80 M50 60 L54 80 M58 60 L62 80 M66 60 L70 80 M74 60 L78 80 M82 60 L86 80 M90 60 L94 80" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Ujung Runcing Jarum -->
+            <path d="M102 64 L120 70 L102 76 Z" fill="#0f172a"/>
+          </g>
+          <rect x="48" y="110" width="82" height="20" rx="5" fill="#0f172a"/>
+          <text x="89" y="123" text-anchor="middle" fill="#e2e8f0" font-size="9" font-weight="bold">KEPALA TEROMPET</text>
+        </svg>`,
+
+      dynabolt: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <defs>
+            <linearGradient id="boltMetal" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f1f5f9"/>
+              <stop offset="50%" stop-color="#94a3b8"/>
+              <stop offset="100%" stop-color="#475569"/>
+            </linearGradient>
+          </defs>
+          <g transform="rotate(-32 70 70)">
+            <!-- Kepala Baut & Mur -->
+            <rect x="18" y="57" width="12" height="26" rx="2" fill="url(#boltMetal)" stroke="#1e293b" stroke-width="1.8"/>
+            <rect x="30" y="54" width="10" height="32" rx="2" fill="#cbd5e1" stroke="#1e293b" stroke-width="1.8"/>
+            <!-- Ring -->
+            <rect x="40" y="51" width="4" height="38" fill="#475569"/>
+            <!-- Selongsong Ekspansi Belah -->
+            <rect x="44" y="58" width="58" height="24" rx="2" fill="url(#boltMetal)" stroke="#1e293b" stroke-width="2"/>
+            <line x1="66" y1="70" x2="102" y2="70" stroke="#0f172a" stroke-width="2.5"/>
+            <line x1="66" y1="64" x2="66" y2="76" stroke="#0f172a" stroke-width="2"/>
+            <!-- Kerucut Pengembang di Ujung -->
+            <path d="M102 60 L118 55 L118 85 L102 80 Z" fill="#64748b" stroke="#0f172a" stroke-width="2"/>
+          </g>
+          <rect x="46" y="110" width="84" height="20" rx="5" fill="#0f172a"/>
+          <text x="88" y="123" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">ANGKUR BETON</text>
+        </svg>`,
+
+      seal_tape: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Gulungan Seal Tape Biru-Putih -->
+          <ellipse cx="68" cy="70" rx="42" ry="36" fill="#0284c7" stroke="#0c4a6e" stroke-width="2.5"/>
+          <ellipse cx="68" cy="70" rx="34" ry="29" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+          <ellipse cx="68" cy="70" rx="18" ry="15" fill="#0284c7" stroke="#0c4a6e" stroke-width="2"/>
+          <ellipse cx="68" cy="70" rx="13" ry="11" fill="#e2e8f0"/>
+          <!-- Pita Putih Menjuntai -->
+          <path d="M35 84 Q22 104 42 115 L56 106 Q42 96 48 82 Z" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+          <rect x="58" y="110" width="72" height="20" rx="5" fill="#0f172a"/>
+          <text x="94" y="123" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="bold">PITA ULIR DRAT</text>
+        </svg>`,
+
+      drill_masonry: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <g transform="rotate(-38 70 70)">
+            <!-- Shank Mata Bor -->
+            <rect x="14" y="64" width="32" height="12" rx="2" fill="#94a3b8" stroke="#1e293b" stroke-width="1.8"/>
+            <!-- Alur Spiral -->
+            <rect x="46" y="64" width="62" height="12" fill="#cbd5e1" stroke="#334155" stroke-width="1.5"/>
+            <path d="M50 64 L58 76 M62 64 L70 76 M74 64 L82 76 M86 64 L94 76 M98 64 L106 76" stroke="#1e293b" stroke-width="3"/>
+            <!-- Ujung Mata Widia / Carbide Pipih Melebar -->
+            <path d="M108 61 L126 70 L108 79 L111 70 Z" fill="#f59e0b" stroke="#0f172a" stroke-width="2"/>
+          </g>
+          <rect x="50" y="110" width="80" height="20" rx="5" fill="#0f172a"/>
+          <text x="90" y="123" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">MATA WIDIA BETON</text>
+        </svg>`,
+
+      diamond_wheel: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Cakram Pemotong Keramik Diamond Wheel -->
+          <circle cx="70" cy="66" r="46" fill="#f59e0b" stroke="#b45309" stroke-width="2"/>
+          <circle cx="70" cy="66" r="39" fill="#cbd5e1" stroke="#475569" stroke-width="1.5"/>
+          <!-- Alur Pendingin -->
+          <circle cx="70" cy="42" r="2.5" fill="#334155"/>
+          <circle cx="70" cy="90" r="2.5" fill="#334155"/>
+          <circle cx="46" cy="66" r="2.5" fill="#334155"/>
+          <circle cx="94" cy="66" r="2.5" fill="#334155"/>
+          <circle cx="53" cy="49" r="2.5" fill="#334155"/>
+          <circle cx="87" cy="83" r="2.5" fill="#334155"/>
+          <circle cx="87" cy="49" r="2.5" fill="#334155"/>
+          <circle cx="53" cy="83" r="2.5" fill="#334155"/>
+          <!-- Ring Tengah -->
+          <circle cx="70" cy="66" r="14" fill="#d97706" stroke="#78350f" stroke-width="2"/>
+          <circle cx="70" cy="66" r="8" fill="#0f172a"/>
+          <rect x="44" y="114" width="86" height="20" rx="5" fill="#0f172a"/>
+          <text x="87" y="127" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">CAKRAM KERAMIK</text>
+        </svg>`,
+
+      trowel: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Pelat Raskam Datar -->
+          <polygon points="24,84 96,58 118,78 46,106" fill="#cbd5e1" stroke="#334155" stroke-width="2.5" stroke-linejoin="round"/>
+          <!-- Penyangga & Gagang Kayu -->
+          <path d="M58 76 L58 58 L86 48 L86 64" fill="none" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+          <rect x="46" y="46" width="48" height="13" rx="6" transform="rotate(-18 70 52)" fill="#d97706" stroke="#78350f" stroke-width="2"/>
+          <rect x="48" y="112" width="82" height="20" rx="5" fill="#0f172a"/>
+          <text x="89" y="125" text-anchor="middle" fill="#e2e8f0" font-size="9" font-weight="bold">PELAT PERATA ACIAN</text>
+        </svg>`,
+
+      waterpass: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <g transform="rotate(-24 70 70)">
+            <!-- Batang Aluminium Kuning -->
+            <rect x="14" y="56" width="112" height="26" rx="4" fill="#fbbf24" stroke="#b45309" stroke-width="2.2"/>
+            <rect x="14" y="56" width="10" height="26" rx="2" fill="#1e293b"/>
+            <rect x="116" y="56" width="10" height="26" rx="2" fill="#1e293b"/>
+            <!-- Tabung Nivo Tengah -->
+            <rect x="56" y="61" width="28" height="16" rx="4" fill="#ecfccb" stroke="#365314" stroke-width="1.8"/>
+            <line x1="65" y1="61" x2="65" y2="77" stroke="#0f172a" stroke-width="1.5"/>
+            <line x1="75" y1="61" x2="75" y2="77" stroke="#0f172a" stroke-width="1.5"/>
+            <ellipse cx="70" cy="69" rx="4" ry="5" fill="#84cc16"/>
+          </g>
+          <rect x="48" y="110" width="82" height="20" rx="5" fill="#0f172a"/>
+          <text x="89" y="123" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">CEK KERATAAN NIVO</text>
+        </svg>`,
+
+      bolt_cutter: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Rahang Baja Pemotong Besi -->
+          <path d="M92 42 L118 28 L112 48 Z" fill="#334155" stroke="#0f172a" stroke-width="2"/>
+          <path d="M98 48 L124 46 L108 62 Z" fill="#475569" stroke="#0f172a" stroke-width="2"/>
+          <!-- Engsel Baut -->
+          <circle cx="94" cy="48" r="7" fill="#94a3b8" stroke="#0f172a" stroke-width="2"/>
+          <circle cx="84" cy="58" r="6" fill="#94a3b8" stroke="#0f172a" stroke-width="2"/>
+          <!-- Gagang Panjang Merah/Kuning -->
+          <line x1="84" y1="54" x2="26" y2="94" stroke="#dc2626" stroke-width="8" stroke-linecap="round"/>
+          <line x1="88" y1="62" x2="40" y2="112" stroke="#dc2626" stroke-width="8" stroke-linecap="round"/>
+          <rect x="48" y="114" width="82" height="20" rx="5" fill="#0f172a"/>
+          <text x="89" y="127" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">PEMOTONG BESI</text>
+        </svg>`,
+
+      zinc_chromate: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Kaleng Cat Primer Anti Karat -->
+          <rect x="36" y="34" width="68" height="72" rx="6" fill="#15803d" stroke="#14532d" stroke-width="2.5"/>
+          <ellipse cx="70" cy="34" rx="34" ry="8" fill="#cbd5e1" stroke="#334155" stroke-width="2"/>
+          <!-- Label Kuning pada Kaleng -->
+          <rect x="38" y="52" width="64" height="34" fill="#facc15"/>
+          <text x="70" y="67" text-anchor="middle" fill="#0f172a" font-size="9.5" font-weight="900">ANTI KARAT</text>
+          <text x="70" y="79" text-anchor="middle" fill="#14532d" font-size="8" font-weight="bold">PRIMER BESI</text>
+          <rect x="46" y="112" width="84" height="20" rx="5" fill="#0f172a"/>
+          <text x="88" y="125" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">CAT DASAR LOGAM</text>
+        </svg>`,
+
+      waterproofing: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Ember / Pail Pelapis Antibocor -->
+          <path d="M36 42 L104 42 L98 106 L42 106 Z" fill="#0284c7" stroke="#0c4a6e" stroke-width="2.5"/>
+          <rect x="32" y="34" width="76" height="10" rx="3" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+          <!-- Ikon Tetes Air & Perisai -->
+          <path d="M70 54 C70 54 56 70 56 80 C56 88 62 94 70 94 C78 94 84 88 84 80 C84 70 70 54 70 54 Z" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/>
+          <path d="M64 80 L69 85 L77 75" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="46" y="112" width="84" height="20" rx="5" fill="#0f172a"/>
+          <text x="88" y="125" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="bold">PELAPIS KEDAP AIR</text>
+        </svg>`,
+
+      amplas_duco: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Lembar Amplas Tahan Air Gelap -->
+          <polygon points="32,36 106,28 114,96 40,104" fill="#334155" stroke="#0f172a" stroke-width="2.5"/>
+          <!-- Tekstur Butiran Halus -->
+          <circle cx="55" cy="52" r="1.5" fill="#94a3b8"/>
+          <circle cx="75" cy="48" r="1.5" fill="#94a3b8"/>
+          <circle cx="92" cy="60" r="1.5" fill="#94a3b8"/>
+          <circle cx="64" cy="74" r="1.5" fill="#94a3b8"/>
+          <circle cx="84" cy="82" r="1.5" fill="#94a3b8"/>
+          <!-- Tetes Air -->
+          <path d="M90 36 C90 36 84 44 84 48 C84 51 87 54 90 54 C93 54 96 51 96 48 C96 44 90 36 90 36 Z" fill="#38bdf8"/>
+          <text x="68" y="72" text-anchor="middle" fill="#f8fafc" font-size="11" font-weight="bold" transform="rotate(-6 68 72)">GRIT 400+</text>
+          <rect x="46" y="112" width="84" height="20" rx="5" fill="#0f172a"/>
+          <text x="88" y="125" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="bold">TAHAN AIR HALUS</text>
+        </svg>`,
+
+      tile_adhesive: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Sak Semen Instan Perekat Keramik -->
+          <rect x="34" y="26" width="72" height="82" rx="6" fill="#f59e0b" stroke="#92400e" stroke-width="2.5"/>
+          <rect x="42" y="38" width="56" height="44" rx="4" fill="#ffffff"/>
+          <!-- Motif Kotak Keramik -->
+          <rect x="52" y="45" width="16" height="16" fill="#38bdf8" stroke="#0284c7" stroke-width="1.5"/>
+          <rect x="72" y="45" width="16" height="16" fill="#bae6fd" stroke="#0284c7" stroke-width="1.5"/>
+          <text x="70" y="76" text-anchor="middle" fill="#0f172a" font-size="8.5" font-weight="900">PEREKAT KERAMIK</text>
+          <rect x="46" y="112" width="84" height="20" rx="5" fill="#0f172a"/>
+          <text x="88" y="125" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">SEMEN INSTAN KUAT</text>
+        </svg>`,
+
+      silicone_sealant: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <g transform="rotate(-25 70 70)">
+            <!-- Tabung Cartridge Sealant -->
+            <rect x="26" y="56" width="64" height="26" rx="3" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+            <rect x="38" y="56" width="38" height="26" fill="#0284c7"/>
+            <text x="57" y="72" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">SANITARI</text>
+            <!-- Corong Nozzle Runcing -->
+            <path d="M90 63 L122 68 L122 71 L90 75 Z" fill="#e2e8f0" stroke="#334155" stroke-width="1.8"/>
+          </g>
+          <rect x="46" y="112" width="84" height="20" rx="5" fill="#0f172a"/>
+          <text x="88" y="125" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="bold">PENUTUP CELAH AIR</text>
+        </svg>`,
+
+      kawat_bendrat: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Gulungan Kawat Hitam Lunak Pengikat Besi -->
+          <ellipse cx="70" cy="66" rx="42" ry="34" fill="none" stroke="#1e293b" stroke-width="6"/>
+          <ellipse cx="70" cy="66" rx="36" ry="28" fill="none" stroke="#475569" stroke-width="5"/>
+          <ellipse cx="70" cy="66" rx="30" ry="22" fill="none" stroke="#0f172a" stroke-width="4"/>
+          <!-- Tali Pengikat Gulungan -->
+          <line x1="70" y1="28" x2="70" y2="46" stroke="#f59e0b" stroke-width="4"/>
+          <line x1="70" y1="86" x2="70" y2="104" stroke="#f59e0b" stroke-width="4"/>
+          <line x1="25" y1="66" x2="43" y2="66" stroke="#f59e0b" stroke-width="4"/>
+          <line x1="97" y1="66" x2="115" y2="66" stroke="#f59e0b" stroke-width="4"/>
+          <rect x="46" y="112" width="84" height="20" rx="5" fill="#0f172a"/>
+          <text x="88" y="125" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">PENGIKAT BESI BETON</text>
+        </svg>`,
+
+      besi_hollow: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <defs>
+            <linearGradient id="hollowMetal" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#e2e8f0"/>
+              <stop offset="50%" stop-color="#94a3b8"/>
+              <stop offset="100%" stop-color="#475569"/>
+            </linearGradient>
+          </defs>
+          <!-- Tumpukan Batang Profil Baja Kotak Berongga -->
+          <polygon points="44,32 116,52 116,74 44,54" fill="url(#hollowMetal)" stroke="#1e293b" stroke-width="2"/>
+          <rect x="24" y="54" width="22" height="22" fill="#cbd5e1" stroke="#1e293b" stroke-width="2"/>
+          <rect x="28" y="58" width="14" height="14" fill="#0f172a"/>
+          <!-- Batang Kedua -->
+          <polygon points="66,54 124,70 124,92 66,76" fill="url(#hollowMetal)" stroke="#1e293b" stroke-width="2"/>
+          <rect x="46" y="76" width="22" height="22" fill="#cbd5e1" stroke="#1e293b" stroke-width="2"/>
+          <rect x="50" y="80" width="14" height="14" fill="#0f172a"/>
+          <!-- Batang Ketiga -->
+          <rect x="24" y="76" width="22" height="22" fill="#cbd5e1" stroke="#1e293b" stroke-width="2"/>
+          <rect x="28" y="80" width="14" height="14" fill="#0f172a"/>
+          <rect x="46" y="112" width="84" height="20" rx="5" fill="#0f172a"/>
+          <text x="88" y="125" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">KOTAK BERONGGA</text>
+        </svg>`,
+
+      stopkontak_wp: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Boks Stopkontak Outdoor Waterproof -->
+          <rect x="38" y="28" width="64" height="76" rx="8" fill="#475569" stroke="#0f172a" stroke-width="2.5"/>
+          <rect x="46" y="38" width="48" height="54" rx="5" fill="#cbd5e1" stroke="#1e293b" stroke-width="2"/>
+          <!-- Lubang Colokan -->
+          <circle cx="62" cy="65" r="4" fill="#0f172a"/>
+          <circle cx="78" cy="65" r="4" fill="#0f172a"/>
+          <!-- Penutup Transparan Anti Air -->
+          <rect x="44" y="36" width="52" height="58" rx="6" fill="#38bdf8" fill-opacity="0.35" stroke="#0284c7" stroke-width="2"/>
+          <rect x="46" y="112" width="84" height="20" rx="5" fill="#0f172a"/>
+          <text x="88" y="125" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="bold">PENUTUP ANTI AIR</text>
+        </svg>`,
+
+      thinner: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Kaleng Kotak Thinner Pelarut Cat Minyak -->
+          <rect x="42" y="34" width="56" height="72" rx="4" fill="#e2e8f0" stroke="#334155" stroke-width="2.5"/>
+          <rect x="62" y="24" width="16" height="10" rx="2" fill="#dc2626" stroke="#7f1d1d" stroke-width="1.5"/>
+          <rect x="44" y="52" width="52" height="32" fill="#dc2626"/>
+          <text x="70" y="67" text-anchor="middle" fill="#ffffff" font-size="9" font-weight="900">PELARUT</text>
+          <text x="70" y="78" text-anchor="middle" fill="#fef08a" font-size="7.5" font-weight="bold">CAT MINYAK</text>
+          <rect x="46" y="112" width="84" height="20" rx="5" fill="#0f172a"/>
+          <text x="88" y="125" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">PENGENCER SINTETIS</text>
+        </svg>`,
+
+      lem_kuning: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Kaleng Lem Kontak Kuning -->
+          <rect x="38" y="34" width="64" height="70" rx="6" fill="#facc15" stroke="#854d0e" stroke-width="2.5"/>
+          <ellipse cx="70" cy="34" rx="32" ry="7" fill="#fef08a" stroke="#854d0e" stroke-width="2"/>
+          <rect x="40" y="52" width="60" height="32" fill="#dc2626"/>
+          <text x="70" y="67" text-anchor="middle" fill="#ffffff" font-size="9" font-weight="900">LEM KONTAK</text>
+          <text x="70" y="78" text-anchor="middle" fill="#fef08a" font-size="8" font-weight="bold">HPL & KAYU</text>
+          <rect x="46" y="112" width="84" height="20" rx="5" fill="#0f172a"/>
+          <text x="88" y="125" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">OLES 2 SISI</text>
+        </svg>`,
+
+      flashband: `
+        <svg viewBox="0 0 140 140" class="w-full h-full">
+          <!-- Gulungan Lakban Aluminium Aspal Tambal Bocor -->
+          <ellipse cx="66" cy="68" rx="40" ry="34" fill="#94a3b8" stroke="#1e293b" stroke-width="2.5"/>
+          <ellipse cx="66" cy="68" rx="33" ry="27" fill="#1e293b"/>
+          <ellipse cx="66" cy="68" rx="18" ry="15" fill="#cbd5e1" stroke="#334155" stroke-width="2"/>
+          <!-- Ujung Aluminium Foil Menjuntai -->
+          <path d="M98 84 L124 98 L108 112 L84 96 Z" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+          <rect x="46" y="112" width="84" height="20" rx="5" fill="#0f172a"/>
+          <text x="88" y="125" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">TAMBAL TALANG</text>
+        </svg>`
+    };
+
+    /**
+     * Bank Soal Lengkap Sukardi Bangunan Grub (22 Soal Bergambar)
+     */
+    const QUESTION_BANK = [
+      // --- PAKET 1: DASAR & HARIAN TOKO (11 Soal) ---
+      {
+        id: 1,
+        pkg: 'paket1',
+        category: 'Pipa & Sambungan',
+        svgKey: 'pvc_aw',
+        productName: 'Pipa PVC Tipe AW',
+        hintCaption: 'Dinding tebal untuk saluran air bertekanan',
+        question: 'Pelanggan membeli pipa PVC untuk jalur pipa air bersih bertekanan tinggi dari pompa air. Apa karakteristik utama pipa jenis ini dibanding tipe D?',
+        options: [
+          'Pipa PVC tipe AW — dinding lebih tebal untuk tekanan tinggi',
+          'Pipa PVC tipe D — dinding tipis khusus pembuangan',
+          'Selang spiral hisap — lentur tanpa sambungan',
+          'Pipa conduit listrik — khusus kabel tanam dinding'
+        ],
+        correctIndex: 0,
+        explanation: 'Pipa PVC tipe AW memiliki dinding paling tebal sehingga kuat menahan tekanan pompa air bersih, sedangkan tipe D berdinding lebih tipis untuk pembuangan tanpa tekanan.'
+      },
+      {
+        id: 2,
+        pkg: 'paket1',
+        category: 'Pipa & Sambungan',
+        svgKey: 'pvc_d',
+        productName: 'Pipa PVC Tipe D',
+        hintCaption: 'Dinding sedang/tipis untuk saluran pembuangan',
+        question: 'Pelanggan butuh pipa PVC untuk saluran pembuangan air kotor/limbah rumah tangga yang tidak bertekanan tinggi dan ingin harga lebih ekonomis. Barang apa yang disiapkan?',
+        options: [
+          'Pipa PVC tipe AW',
+          'Pipa PVC tipe D',
+          'Pipa galvanis drat luar',
+          'Water mur kuningan'
+        ],
+        correctIndex: 1,
+        explanation: 'Pipa PVC tipe D dirancang khusus untuk saluran air limbah/pembuangan tanpa tekanan tinggi sehingga harganya lebih hemat dibanding tipe AW.'
+      },
+      {
+        id: 3,
+        pkg: 'paket1',
+        category: 'Sekrup & Baja Ringan',
+        svgKey: 'screw_roofing',
+        productName: 'Sekrup Self-Drilling / Roofing',
+        hintCaption: 'Ujung berbentuk mata bor + ring karet',
+        question: 'Seorang pelanggan mencari sekrup yang ujungnya runcing berbentuk mata bor kecil agar bisa langsung menembus pelat hollow baja ringan tanpa perlu dilubangi dulu. Jenis sekrup apa ini?',
+        options: [
+          'Sekrup gypsum drat halus hitam',
+          'Sekrup self-drilling / roofing baja ringan',
+          'Paku payung seng gelombang',
+          'Sekrup kayu kepala bulat kuningan'
+        ],
+        correctIndex: 1,
+        explanation: 'Sekrup self-drilling (sering disebut sekrup baja ringan/roofing) memiliki ujung mata bor tajam untuk menembus pelat logam tanpa mengebor lubang awal.'
+      },
+      {
+        id: 4,
+        pkg: 'paket1',
+        category: 'Sekrup & Plafon',
+        svgKey: 'screw_gypsum',
+        productName: 'Sekrup Gypsum',
+        hintCaption: 'Warna hitam fosfat dengan kepala terompet',
+        question: 'Tukang plafon meminta sekrup berwarna hitam dengan kepala berbentuk terompet agar tidak merobek kertas papan gypsum saat dipasang ke rangka. Barang apa yang diambilkan?',
+        options: [
+          'Sekrup gypsum',
+          'Dynabolt 10 mm',
+          'Baut mur M12',
+          'Paku beton putih'
+        ],
+        correctIndex: 0,
+        explanation: 'Sekrup gypsum memiliki kepala terompet (bugle head) dan lapisan fosfat hitam anti karat agar menempel rata tanpa merusak permukaan papan gypsum.'
+      },
+      {
+        id: 5,
+        pkg: 'paket1',
+        category: 'Pengikat & Angkur',
+        svgKey: 'dynabolt',
+        productName: 'Dynabolt (Anchor Bolt)',
+        hintCaption: 'Baut angkur berselongsong yang mengembang',
+        question: 'Pelanggan ingin memasang braket beban berat pada dinding beton padat menggunakan baut berselongsong yang mengembang saat mur dikencangkan. Barang apa yang harus disiapkan?',
+        options: [
+          'Dynabolt (angkur ekspansi)',
+          'Klem kabel paku beton',
+          'Paku triplek 2 cm',
+          'Sekrup fisher plastik S6'
+        ],
+        correctIndex: 0,
+        explanation: 'Dynabolt berfungsi sebagai angkur ekspansi pada beton atau bata padat untuk menopang beban berat seperti braket AC, kanopi, maupun rak besi.'
+      },
+      {
+        id: 6,
+        pkg: 'paket1',
+        category: 'Sanitasi & Air',
+        svgKey: 'seal_tape',
+        productName: 'Seal Tape (PTFE Tape)',
+        hintCaption: 'Gulungan pita putih tipis pelapis ulir drat',
+        question: 'Pelanggan mengeluh sambungan drat keran air barunya sedikit menetes dan butuh pita putih tipis untuk melilit ulir drat sebelum dipasang agar rapat. Apa nama barang ini?',
+        options: [
+          'Seal tape (PTFE tape)',
+          'Isolasi listrik hitam',
+          'Lakban kain (cloth tape)',
+          'Lem kayu putih PVAc'
+        ],
+        correctIndex: 0,
+        explanation: 'Seal tape (PTFE tape) dililitkan searah ulir pada drat keran atau sambungan pipa berulir untuk merapatkan celah dan mencegah kebocoran air.'
+      },
+      {
+        id: 7,
+        pkg: 'paket1',
+        category: 'Perkakas & Mata Potong',
+        svgKey: 'diamond_wheel',
+        productName: 'Mata Potong Keramik (Diamond Wheel)',
+        hintCaption: 'Cakram gerinda bertepi rata untuk keramik/granit',
+        question: 'Seorang tukang ingin memotong keramik atau granit lantai secara lurus dan rapi tanpa banyak serpihan pecah menggunakan mesin gerinda tangan. Mata potong apa yang dipasang?',
+        options: [
+          'Mata potong keramik / diamond wheel tipis rata',
+          'Mata gerinda poles kain (buffing wheel)',
+          'Mata bor kayu spiral (wood twist bit)',
+          'Kape gagang plastik'
+        ],
+        correctIndex: 0,
+        explanation: 'Diamond wheel bertepi rata/turbo dirancang khusus untuk memotong keramik dan granit dengan hasil halus dan meminimalkan gompal pada glasir.'
+      },
+      {
+        id: 8,
+        pkg: 'paket1',
+        category: 'Perkakas Tukang',
+        svgKey: 'trowel',
+        productName: 'Raskam Perata (Trowel)',
+        hintCaption: 'Pelat datar bergagang untuk meratakan acian',
+        question: 'Untuk meratakan permukaan plesteran dinding sebelum diaci atau meratakan adukan lem keramik agar rata, alat tangan pelat datar apa yang digunakan tukang?',
+        options: [
+          'Raskam perata (trowel)',
+          'Waterpass magnet',
+          'Tang kombinasi',
+          'Kunci inggris 10 inch'
+        ],
+        correctIndex: 0,
+        explanation: 'Raskam (trowel) memiliki permukaan pelat datar bergagang yang digunakan tukang untuk menghaluskan acian dinding maupun meratakan perekat keramik.'
+      },
+      {
+        id: 9,
+        pkg: 'paket1',
+        category: 'Perkakas Pengukur',
+        svgKey: 'waterpass',
+        productName: 'Waterpass',
+        hintCaption: 'Alat ukur dengan tabung gelembung cairan (nivo)',
+        question: 'Tukang membutuhkan alat pengukur bergelembung cairan di tengahnya untuk mengecek apakah pemasangan keramik, kusen, atau bata sudah benar-benar datar dan siku. Alat apa ini?',
+        options: [
+          'Waterpass',
+          'Jangka sorong (sigmat)',
+          'Meteran gulung kain',
+          'Unting-unting timah'
+        ],
+        correctIndex: 0,
+        explanation: 'Waterpass memakai tabung kaca berisi cairan dan gelembung udara (nivo) untuk memastikan bidang kerja benar-benar rata horizontal maupun tegak vertikal.'
+      },
+      {
+        id: 10,
+        pkg: 'paket1',
+        category: 'Perkakas Potong',
+        svgKey: 'bolt_cutter',
+        productName: 'Gunting Besi Beton (Bolt Cutter)',
+        hintCaption: 'Tuas ganda bergagang panjang untuk besi beton',
+        question: 'Tukang membutuhkan alat bergagang panjang dengan rahang baja keras untuk memotong besi beton atau rantai baja tebal secara manual tanpa listrik. Barang apa yang diambilkan?',
+        options: [
+          'Gunting besi beton (bolt cutter)',
+          'Tang lancip (long nose plier)',
+          'Gunting seng ringan',
+          'Cutter kertas besar'
+        ],
+        correctIndex: 0,
+        explanation: 'Gunting besi (bolt cutter) memiliki sistem tuas ganda bertenaga tinggi untuk memotong besi tulangan beton dan rantai baja secara manual.'
+      },
+      {
+        id: 11,
+        pkg: 'paket1',
+        category: 'Perekat & Keramik',
+        svgKey: 'tile_adhesive',
+        productName: 'Lem Keramik Instan (Tile Adhesive)',
+        hintCaption: 'Semen instan polimer khusus tempel keramik',
+        question: 'Seorang pelanggan ingin memasang keramik dinding di kamar mandi yang lembap agar tidak mudah terkelupas dan tahan air. Barang manakah yang paling tepat direkomendasikan?',
+        options: [
+          'Lem keramik instan (tile adhesive)',
+          'Lem kayu putih PVAc',
+          'Lem pipa PVC kaleng',
+          'Plamir tembok dalam ruangan'
+        ],
+        correctIndex: 0,
+        explanation: 'Lem keramik instan (tile adhesive) mengandung bahan aditif polimer sehingga daya rekatnya kuat pada dinding vertikal maupun area basah kamar mandi.'
+      },
+
+      // --- PAKET 2: TEKNIS, CAT & MATERIAL STRUKTUR (11 Soal) ---
+      {
+        id: 12,
+        pkg: 'paket2',
+        category: 'Material Struktur',
+        svgKey: 'besi_hollow',
+        productName: 'Besi Hollow',
+        hintCaption: 'Profil baja kotak/persegi panjang berongga',
+        question: 'Seorang pelanggan mencari material profil baja tipis berbentuk kotak/persegi panjang berongga yang umum dipakai untuk rangka plafon, kanopi, atau partisi. Sebutan barang ini adalah...',
+        options: [
+          'Besi hollow',
+          'Seng plat talang gulungan',
+          'Kawat nyamuk aluminium',
+          'List profil kayu'
+        ],
+        correctIndex: 0,
+        explanation: 'Besi hollow (galvanis maupun hitam) berbentuk kotak berongga yang ringan namun kuat untuk rangka plafon gypsum, kanopi, dan pagar.'
+      },
+      {
+        id: 13,
+        pkg: 'paket2',
+        category: 'Cat & Pelapis Besi',
+        svgKey: 'zinc_chromate',
+        productName: 'Cat Dasar Anti Karat (Zinc Chromate)',
+        hintCaption: 'Cat primer pelindung logam sebelum cat warna',
+        question: 'Pelanggan ingin mengecat pagar besi agar cat warna akhir menempel kuat dan besi terlindungi dari korosi/karat. Lapisan cat dasar apa yang paling tepat disiapkan?',
+        options: [
+          'Cat dasar anti karat (zinc chromate / meni besi)',
+          'Plamir tembok interior',
+          'Cat pelapis batu alam glossy',
+          'Wood stain pelitur kayu'
+        ],
+        correctIndex: 0,
+        explanation: 'Cat dasar zinc chromate berfungsi sebagai primer anti karat yang menghambat oksidasi pada besi sekaligus memperkuat daya rekat cat akhir.'
+      },
+      {
+        id: 14,
+        pkg: 'paket2',
+        category: 'Cat & Pelapis Antibocor',
+        svgKey: 'waterproofing',
+        productName: 'Cat Pelapis Antibocor (Waterproofing)',
+        hintCaption: 'Pelapis membran elastis kedap air untuk dak/atap',
+        question: 'Pelanggan ingin melapisi dak beton datar yang sering tergenang air hujan agar tidak rembes ke plafon lantai bawah. Produk manakah yang paling tepat?',
+        options: [
+          'Cat pelapis antibocor (waterproofing)',
+          'Cat tembok interior standar',
+          'Thinner A spesial',
+          'Dempul kayu warna jati'
+        ],
+        correctIndex: 0,
+        explanation: 'Cat waterproofing membentuk lapisan elastis kedap air untuk menutup pori dan retak rambut pada dak beton, talang, maupun dinding luar.'
+      },
+      {
+        id: 15,
+        pkg: 'paket2',
+        category: 'Perkakas & Mata Bor',
+        svgKey: 'drill_masonry',
+        productName: 'Mata Bor Beton Bermata Widia',
+        hintCaption: 'Ujung pelat keras melebar khusus tembok/beton',
+        question: 'Saat mengebor dinding beton solid menggunakan bor hammer drill, jenis mata bor manakah yang harus dipasangkan agar tidak cepat tumpul atau patah?',
+        options: [
+          'Mata bor beton bermata widia',
+          'Mata bor besi HSS hitam polos',
+          'Mata bor kayu kipas (spade bit)',
+          'Mata obeng ketok PH2'
+        ],
+        correctIndex: 0,
+        explanation: 'Mata bor beton memiliki ujung pelat baja keras tungsten carbide (widia) yang dirancang khusus untuk menembus beton dan batu bata.'
+      },
+      {
+        id: 16,
+        pkg: 'paket2',
+        category: 'Material Struktur',
+        svgKey: 'kawat_bendrat',
+        productName: 'Kawat Bendrat',
+        hintCaption: 'Kawat baja lunak pengikat rangka besi beton',
+        question: 'Seorang pelanggan membutuhkan kawat pengikat tulangan besi beton sebelum pengecoran kolom. Kawat apa yang biasa dijual dalam gulungan atau ikatan untuk keperluan ini?',
+        options: [
+          'Kawat bendrat',
+          'Kawat duri galvanis',
+          'Kawat nyamuk parabola',
+          'Kawat las listrik RD'
+        ],
+        correctIndex: 0,
+        explanation: 'Kawat bendrat adalah kawat baja lunak berdiameter kecil yang lentur dan kuat untuk mengikat rangkaian besi beton sebelum pengecoran.'
+      },
+      {
+        id: 17,
+        pkg: 'paket2',
+        category: 'Sealant & Sanitasi',
+        svgKey: 'silicone_sealant',
+        productName: 'Sealant Silikon Netral Sanitari',
+        hintCaption: 'Tabung silikon elastis anti bocor & anti jamur',
+        question: 'Pelanggan ingin menutup celah antara kloset duduk/wastafel dan lantai keramik agar tidak merembes air dan bebas jamur. Bahan sealant apa yang paling sesuai?',
+        options: [
+          'Sealant silikon netral sanitari',
+          'Lem kuning serbaguna (contact adhesive)',
+          'Lakban kertas pelukis',
+          'Dempul besi dua komponen'
+        ],
+        correctIndex: 0,
+        explanation: 'Sealant silikon netral sanitari bersifat lentur, kedap air, tidak berbau tajam, dan tahan jamur pada area kamar mandi serta dapur.'
+      },
+      {
+        id: 18,
+        pkg: 'paket2',
+        category: 'Amplas & Finishing',
+        svgKey: 'amplas_duco',
+        productName: 'Amplas Duco / Silikon Karbida (Waterproof)',
+        hintCaption: 'Kertas amplas tahan air grit halus (400 ke atas)',
+        question: 'Pelanggan memoles bodi kayu dan besi sebelum dicat akhir dan meminta amplas tahan air (waterproof) dengan tingkat kehalusan tinggi. Jenis amplas apa yang disiapkan?',
+        options: [
+          'Amplas duco / silikon karbida tahan air',
+          'Amplas kertas kayu kasar grit 60',
+          'Sabut kawat baja kasar',
+          'Kape dempul besi'
+        ],
+        correctIndex: 0,
+        explanation: 'Amplas duco berbahan silikon karbida memiliki kertas tahan air sehingga aman dipakai mengamplas basah untuk menghasilkan permukaan super halus.'
+      },
+      {
+        id: 19,
+        pkg: 'paket2',
+        category: 'Kelistrikan',
+        svgKey: 'stopkontak_wp',
+        productName: 'Sakelar / Stopkontak Waterproof (IP Tinggi)',
+        hintCaption: 'Perangkat listrik dengan penutup seal tahan percikan air',
+        question: 'Pelanggan memasang instalasi listrik di area lembap seperti kamar mandi atau teras luar yang terkena percikan air. Perlengkapan listrik apa yang paling tepat disiapkan?',
+        options: [
+          'Sakelar / stopkontak outbow atau waterproof berperingkat IP tinggi',
+          'Isolasi ban kain hitam biasa',
+          'Klem paku beton ukuran 8 mm',
+          'Fitting gantung kabel serabut tipis'
+        ],
+        correctIndex: 0,
+        explanation: 'Sakelar dan stopkontak waterproof dilengkapi penutup seal rapat (peringkat IP tinggi) untuk melindungi terminal listrik dari percikan air dan debu.'
+      },
+      {
+        id: 20,
+        pkg: 'paket2',
+        category: 'Cat & Pelarut',
+        svgKey: 'thinner',
+        productName: 'Thinner (Pengencer Cat Sintetis)',
+        hintCaption: 'Cairan pelarut khusus cat kayu & besi berbahan minyak',
+        question: 'Pelanggan membeli cat kayu dan besi berbahan dasar minyak (sintetis) dan menanyakan cairan pengencer yang tepat agar cat mudah dikuas. Cairan apa yang diberikan?',
+        options: [
+          'Thinner (pengencer cat sintetis)',
+          'Air bersih keran',
+          'Cairan pembersih keramik (HCl)',
+          'Oli mesin pelumas'
+        ],
+        correctIndex: 0,
+        explanation: 'Cat kayu/besi berbahan minyak (solvent-based) wajib diencerkan menggunakan thinner, berbeda dengan cat tembok water-based yang memakai air bersih.'
+      },
+      {
+        id: 21,
+        pkg: 'paket2',
+        category: 'Perekat & Kayu',
+        svgKey: 'lem_kuning',
+        productName: 'Lem Kuning Serbaguna (Lem Kontak)',
+        hintCaption: 'Lem kontak yang dioleskan ke kedua permukaan',
+        question: 'Tukang kayu sedang menempelkan lapisan HPL ke permukaan tripleks lemari dan membutuhkan lem yang dioles di kedua sisi lalu ditunggu setengah kering. Lem apa ini?',
+        options: [
+          'Lem kuning serbaguna (lem kontak)',
+          'Lem pipa PVC',
+          'Lem korea cair',
+          'Nat keramik berwarna'
+        ],
+        correctIndex: 0,
+        explanation: 'Lem kuning (contact adhesive) diaplikasikan pada kedua bidang (HPL dan tripleks), ditunggu hingga pelarut menguap sebentar, lalu ditekan agar merekat kuat.'
+      },
+      {
+        id: 22,
+        pkg: 'paket2',
+        category: 'Atap & Talang',
+        svgKey: 'flashband',
+        productName: 'Lakban Aluminium / Flashband Tambal Bocor',
+        hintCaption: 'Pita aspal berlapis aluminium foil penutup bocor',
+        question: 'Pelanggan ingin menambal sambungan talang seng atau atap yang bocor secara praktis menggunakan pita perekat berlapis aluminium foil tahan cuaca. Barang apa yang dicari?',
+        options: [
+          'Lakban aluminium / flashband tambal bocor',
+          'Seal tape pipa putih',
+          'Lakban bening packing',
+          'Kain kasa perban medis'
+        ],
+        correctIndex: 0,
+        explanation: 'Flashband / lakban aluminium bitumen memiliki lapisan perekat aspal lengket dan pelindung aluminium tahan panas hujan untuk menambal kebocoran talang/atap.'
+      }
+    ];
+
+    // State Aplikasi
+    let selectedBranch = 'UD Konco Tani';
+    let selectedPackage = 'paket1';
+    let employeeName = '';
+    let activeQuestions = [];
+    let currentIndex = 0;
+    let userAnswers = [];
+    let isAnsweredCurrent = false;
+
+    const STORAGE_KEY = 'sukardi_bangunan_quiz_history_v1';
+
+    // Inisialisasi saat halaman dimuat
+    window.addEventListener('DOMContentLoaded', () => {
+      renderHistory();
+    });
+
+    /**
+     * Memilih cabang toko pada layar awal
+     */
+    function selectBranch(branchName) {
+      selectedBranch = branchName;
+      document.querySelectorAll('.branch-btn').forEach(btn => {
+        const isTarget = btn.getAttribute('data-branch') === branchName;
+        if (isTarget) {
+          btn.className = 'branch-btn active px-3 py-2.5 rounded-xl border-2 border-amber-500 bg-amber-50 text-slate-900 font-bold text-sm text-center transition';
+        } else {
+          btn.className = 'branch-btn px-3 py-2.5 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-300 text-slate-700 font-semibold text-sm text-center transition';
+        }
+      });
+    }
+
+    /**
+     * Memilih paket soal pada layar awal
+     */
+    function selectPackage(pkgKey) {
+      selectedPackage = pkgKey;
+      const cards = document.querySelectorAll('.pkg-card');
+      cards.forEach(card => {
+        const radio = card.querySelector('input[type="radio"]');
+        if (radio.value === pkgKey) {
+          radio.checked = true;
+          card.className = 'pkg-card flex items-start gap-3 p-3.5 rounded-xl border-2 border-amber-500 bg-amber-50/70 cursor-pointer transition';
+        } else {
+          radio.checked = false;
+          card.className = 'pkg-card flex items-start gap-3 p-3.5 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition';
+        }
+      });
+    }
+
+    /**
+     * Mengacak array (Fisher-Yates Shuffle)
+     */
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    /**
+     * Mendapatkan label nama paket yang rapi
+     */
+    function getPackageLabel(pkgKey) {
+      if (pkgKey === 'paket1') return 'Paket 1 (Dasar & Harian Toko)';
+      if (pkgKey === 'paket2') return 'Paket 2 (Teknis, Cat & Struktur)';
+      return 'Paket Campuran (Semua Kategori)';
+    }
+
+    /**
+     * Memulai sesi kuis berdasarkan nama, cabang, dan paket soal yang dipilih
+     */
+    function startQuiz() {
+      const nameInput = document.getElementById('inputEmployeeName');
+      const errorMsg = document.getElementById('nameErrorMsg');
+      employeeName = nameInput.value.trim();
+
+      if (!employeeName) {
+        errorMsg.classList.remove('hidden');
+        nameInput.focus();
+        nameInput.classList.add('border-red-500', 'ring-2', 'ring-red-200');
+        return;
+      }
+
+      errorMsg.classList.add('hidden');
+      nameInput.classList.remove('border-red-500', 'ring-2', 'ring-red-200');
+
+      // Filter soal berdasarkan paket yang dipilih
+      let pool = [];
+      if (selectedPackage === 'paket1') {
+        pool = QUESTION_BANK.filter(q => q.pkg === 'paket1');
+      } else if (selectedPackage === 'paket2') {
+        pool = QUESTION_BANK.filter(q => q.pkg === 'paket2');
+      } else {
+        pool = [...QUESTION_BANK];
+      }
+
+      // Acak urutan soal (ambil maksimal 10 soal) dan acak posisi opsi jawaban
+      activeQuestions = shuffleArray(pool).slice(0, 10).map(q => {
+        const mappedOptions = q.options.map((text, idx) => ({
+          text,
+          isOriginalCorrect: idx === q.correctIndex
+        }));
+        const shuffledOptions = shuffleArray(mappedOptions);
+        const newCorrectIndex = shuffledOptions.findIndex(opt => opt.isOriginalCorrect);
+        return {
+          ...q,
+          shuffledOptions,
+          newCorrectIndex
+        };
+      });
+
+      currentIndex = 0;
+      userAnswers = [];
+
+      // Perbarui header kuis & tampilkan layar kuis
+      document.getElementById('quizPlayerBadge').textContent = `${employeeName} • ${selectedBranch}`;
+      document.getElementById('screenStart').classList.add('hidden');
+      document.getElementById('screenResult').classList.add('hidden');
+      document.getElementById('screenQuiz').classList.remove('hidden');
+      document.getElementById('btnHeaderHome').classList.remove('hidden');
+
+      renderCurrentQuestion();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /**
+     * Merender soal ke layar kuis lengkap dengan gambar produk SVG
+     */
+    function renderCurrentQuestion() {
+      isAnsweredCurrent = false;
+      const q = activeQuestions[currentIndex];
+      const total = activeQuestions.length;
+
+      document.getElementById('quizProgressText').textContent = `Soal ${currentIndex + 1} / ${total}`;
+      document.getElementById('quizProgressBar').style.width = `${((currentIndex + 1) / total) * 100}%`;
+      document.getElementById('questionHeaderTag').textContent = `SOAL ${currentIndex + 1}: ${q.category.toUpperCase()}`;
+      document.getElementById('questionHintBadge').textContent = 'Tebak Barang & Fungsi';
+      document.getElementById('questionText').textContent = q.question;
+
+      // Render Gambar Produk SVG di dalam kotak soal
+      const imageBox = document.getElementById('questionImageBox');
+      imageBox.innerHTML = PRODUCT_SVGS[q.svgKey] || '';
+      document.getElementById('imageCaptionTag').textContent = `🔍 ${q.hintCaption}`;
+
+      // Sembunyikan feedback & tombol lanjut
+      const feedbackBox = document.getElementById('feedbackBox');
+      feedbackBox.classList.add('hidden');
+      document.getElementById('btnNextQuestion').classList.add('hidden');
+
+      // Render 4 tombol pilihan
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      q.shuffledOptions.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'option-btn w-full text-left p-3.5 sm:p-4 rounded-xl border-2 border-slate-200 bg-white hover:bg-amber-50 hover:border-amber-400 active:scale-[0.99] transition flex items-start gap-3 shadow-2xs';
+        btn.onclick = () => handleAnswer(idx);
+
+        btn.innerHTML = `
+          <span class="opt-letter w-7 h-7 rounded-lg bg-slate-100 border border-slate-300 text-slate-800 font-extrabold text-xs flex items-center justify-center shrink-0 mt-0.5">
+            ${letters[idx]}
+          </span>
+          <span class="text-sm sm:text-base font-semibold text-slate-800 leading-snug">
+            ${opt.text}
+          </span>
+        `;
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    /**
+     * Menangani klik jawaban karyawan dan menampilkan pembahasan + gambar detail barang
+     */
+    function handleAnswer(selectedIdx) {
+      if (isAnsweredCurrent) return;
+      isAnsweredCurrent = true;
+
+      const q = activeQuestions[currentIndex];
+      const isCorrect = selectedIdx === q.newCorrectIndex;
+
+      userAnswers.push({
+        question: q.question,
+        category: q.category,
+        svgKey: q.svgKey,
+        productName: q.productName,
+        selectedText: q.shuffledOptions[selectedIdx].text,
+        correctText: q.shuffledOptions[q.newCorrectIndex].text,
+        isCorrect,
+        explanation: q.explanation
+      });
+
+      // Ubah warna tombol opsi
+      const optionButtons = document.querySelectorAll('.option-btn');
+      optionButtons.forEach((btn, idx) => {
+        btn.disabled = true;
+        const letterSpan = btn.querySelector('.opt-letter');
+
+        if (idx === q.newCorrectIndex) {
+          btn.className = 'option-btn w-full text-left p-3.5 sm:p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 transition flex items-start gap-3';
+          letterSpan.className = 'opt-letter w-7 h-7 rounded-lg bg-emerald-600 text-white font-extrabold text-xs flex items-center justify-center shrink-0 mt-0.5';
+        } else if (idx === selectedIdx && !isCorrect) {
+          btn.className = 'option-btn w-full text-left p-3.5 sm:p-4 rounded-xl border-2 border-red-500 bg-red-50 transition flex items-start gap-3';
+          letterSpan.className = 'opt-letter w-7 h-7 rounded-lg bg-red-600 text-white font-extrabold text-xs flex items-center justify-center shrink-0 mt-0.5';
+        } else {
+          btn.className = 'option-btn w-full text-left p-3.5 sm:p-4 rounded-xl border-2 border-slate-200 bg-white opacity-60 flex items-start gap-3';
+        }
+      });
+
+      // Perbarui label caption gambar setelah terjawab
+      document.getElementById('imageCaptionTag').textContent = `📦 Barang: ${q.productName}`;
+
+      // Tampilkan umpan balik penjelasan barang + mini ilustrasi produk
+      const feedbackBox = document.getElementById('feedbackBox');
+      const feedbackTitle = document.getElementById('feedbackTitle');
+      const feedbackMiniSvg = document.getElementById('feedbackMiniSvg');
+      const feedbackProductLabel = document.getElementById('feedbackProductLabel');
+      const feedbackExplanation = document.getElementById('feedbackExplanation');
+
+      feedbackBox.classList.remove('hidden');
+      if (isCorrect) {
+        feedbackBox.className = 'rounded-xl p-4 border-2 border-emerald-400 bg-emerald-50 space-y-2.5';
+        feedbackTitle.innerHTML = `<span class="text-emerald-800">✅ Jawaban Tepat! Mantap!</span>`;
+      } else {
+        feedbackBox.className = 'rounded-xl p-4 border-2 border-red-400 bg-red-50 space-y-2.5';
+        feedbackTitle.innerHTML = `<span class="text-red-800">❌ Kurang Tepat — Jawaban Benar: ${q.shuffledOptions[q.newCorrectIndex].text}</span>`;
+      }
+
+      feedbackMiniSvg.innerHTML = PRODUCT_SVGS[q.svgKey] || '';
+      feedbackProductLabel.textContent = `Identitas Barang: ${q.productName}`;
+      feedbackExplanation.textContent = q.explanation;
+
+      // Tampilkan tombol Soal Berikutnya / Lihat Hasil
+      const btnNext = document.getElementById('btnNextQuestion');
+      const btnNextLabel = document.getElementById('btnNextLabel');
+      btnNextLabel.textContent = (currentIndex + 1 < activeQuestions.length) ? 'Soal Berikutnya' : 'Lihat Hasil & Kirim ke WA';
+      btnNext.classList.remove('hidden');
+    }
+
+    /**
+     * Lanjut ke soal berikutnya atau tampilkan layar hasil
+     */
+    function nextQuestion() {
+      if (currentIndex + 1 < activeQuestions.length) {
+        currentIndex++;
+        renderCurrentQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showResultScreen();
+      }
+    }
+
+    /**
+     * Format tanggal Indonesia hari ini
+     */
+    function getFormattedIndonesianDate() {
+      const now = new Date();
+      return now.toLocaleDateString('id-ID', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      });
+    }
+
+    /**
+     * Menampilkan layar hasil, menyusun teks WhatsApp, dan menyimpan ke localStorage
+     */
+    function showResultScreen() {
+      document.getElementById('screenQuiz').classList.add('hidden');
+      document.getElementById('screenResult').classList.remove('hidden');
+
+      const total = activeQuestions.length;
+      const correctCount = userAnswers.filter(a => a.isCorrect).length;
+      const scorePoints = Math.round((correctCount / total) * 100);
+      const isPassed = scorePoints >= 80;
+      const dateStr = getFormattedIndonesianDate();
+      const pkgLabel = getPackageLabel(selectedPackage);
+
+      // Predikat
+      let predicate = '';
+      let icon = '🏆';
+      if (scorePoints === 100) {
+        predicate = 'Sempurna! Master Barang Toko!';
+        icon = '👑';
+      } else if (scorePoints >= 80) {
+        predicate = 'Siap Melayani Pelanggan!';
+        icon = '🏆';
+      } else if (scorePoints >= 60) {
+        predicate = 'Cukup Baik, Terus Berlatih!';
+        icon = '💪';
+      } else {
+        predicate = 'Perlu Ulangi Hafalan Barang';
+        icon = '📚';
+      }
+
+      document.getElementById('resultBadgeIcon').textContent = icon;
+      document.getElementById('resultPredicate').textContent = predicate;
+      document.getElementById('resultMeta').textContent = `${employeeName} • ${selectedBranch} • ${pkgLabel}`;
+      document.getElementById('resultScorePoints').textContent = scorePoints;
+      document.getElementById('resultCorrectCount').textContent = `${correctCount}/${total}`;
+      document.getElementById('resultStatusLabel').textContent = isPassed ? 'LULUS ✅' : 'LATIHAN LAGI';
+      document.getElementById('resultStatusLabel').className = isPassed
+        ? 'text-sm font-extrabold text-emerald-400 mt-1.5'
+        : 'text-sm font-extrabold text-amber-400 mt-1.5';
+
+      // Susun teks laporan untuk Grup WhatsApp Toko
+      const statusText = isPassed ? 'LULUS (Siap Melayani Pelanggan)' : 'PERLU LATIHAN LAGI';
+      const wrongItems = userAnswers
+        .filter(a => !a.isCorrect)
+        .map(a => `• ${a.category}: ${a.correctText}`);
+
+      let waReport = `*SUKARDI BANGUNAN GRUB*\n`;
+      waReport += `_Laporan Kuis Hafalan Barang Toko_\n\n`;
+      waReport += `👤 *Nama:* ${employeeName}\n`;
+      waReport += `🏪 *Cabang:* ${selectedBranch}\n`;
+      waReport += `📅 *Tanggal:* ${dateStr}\n`;
+      waReport += `📦 *Paket:* ${pkgLabel}\n`;
+      waReport += `🎯 *Skor:* ${scorePoints} Poin (${correctCount}/${total} Benar)\n`;
+      waReport += `📌 *Status:* ${statusText}\n`;
+
+      if (wrongItems.length > 0) {
+        waReport += `\n📝 *Catatan Barang yang Perlu Diingat:*\n${wrongItems.join('\n')}\n`;
+      } else {
+        waReport += `\n✨ *Catatan:* Semua barang terjawab tepat tanpa salah!\n`;
+      }
+
+      document.getElementById('waPreviewText').textContent = waReport;
+
+      // Update link WhatsApp wa.me
+      const encodedText = encodeURIComponent(waReport);
+      document.getElementById('btnShareWhatsApp').href = `https://wa.me/?text=${encodedText}`;
+
+      // Simpan ke localStorage
+      saveHistory({
+        name: employeeName,
+        branch: selectedBranch,
+        pkgLabel,
+        score: scorePoints,
+        correct: correctCount,
+        total,
+        date: dateStr
+      });
+
+      // Render daftar evaluasi jawaban
+      renderReviewList();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /**
+     * Merender rincian jawaban benar & salah beserta gambar produk di layar hasil
+     */
+    function renderReviewList() {
+      const container = document.getElementById('reviewList');
+      container.innerHTML = '';
+
+      userAnswers.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = item.isCorrect
+          ? 'p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/60 flex items-start gap-3'
+          : 'p-3.5 rounded-xl border border-red-200 bg-red-50/60 flex items-start gap-3';
+
+        card.innerHTML = `
+          <div class="w-16 h-16 rounded-lg bg-white border border-slate-200 p-1 shrink-0 flex items-center justify-center">
+            ${PRODUCT_SVGS[item.svgKey] || ''}
+          </div>
+          <div class="flex-1 min-w-0 space-y-1">
+            <div class="flex items-center justify-between gap-2 text-xs font-bold">
+              <span class="text-slate-600 truncate">Soal #${idx + 1} • ${item.productName}</span>
+              <span class="${item.isCorrect ? 'text-emerald-700' : 'text-red-700'} shrink-0">
+                ${item.isCorrect ? '✅ Benar' : '❌ Salah'}
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-800 leading-snug">${item.question}</p>
+            ${!item.isCorrect ? `<p class="text-xs text-red-700">Jawaban Anda: <span class="line-through">${item.selectedText}</span></p>` : ''}
+            <p class="text-xs font-bold text-emerald-800">Kunci: ${item.correctText}</p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    /**
+     * Menyalin teks hasil ke clipboard menggunakan fallback execCommand agar aman di iframe/mobile
+     */
+    function copyResultText() {
+      const text = document.getElementById('waPreviewText').textContent;
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      try {
+        document.execCommand('copy');
+        showToast('✅', 'Teks laporan berhasil disalin! Silakan tempel di grup WA.');
+      } catch (err) {
+        showToast('⚠️', 'Gagal menyalin otomatis. Silakan salin manual dari kotak preview.');
+      }
+
+      document.body.removeChild(textarea);
+    }
+
+    /**
+     * Menampilkan pesan toast singkat
+     */
+    function showToast(icon, message) {
+      const toast = document.getElementById('toastMessage');
+      document.getElementById('toastIcon').textContent = icon;
+      document.getElementById('toastText').textContent = message;
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 3000);
+    }
+
+    /**
+     * Mengulangi paket kuis yang sama dengan karyawan yang sama
+     */
+    function retrySameQuiz() {
+      startQuiz();
+    }
+
+    /**
+     * Kembali ke layar awal untuk ganti paket atau nama
+     */
+    function goToHome() {
+      document.getElementById('screenQuiz').classList.add('hidden');
+      document.getElementById('screenResult').classList.add('hidden');
+      document.getElementById('screenStart').classList.remove('hidden');
+      document.getElementById('btnHeaderHome').classList.add('hidden');
+      renderHistory();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /**
+     * Konfirmasi sebelum keluar dari kuis yang sedang berjalan
+     */
+    function confirmBackToHome() {
+      const isQuizVisible = !document.getElementById('screenQuiz').classList.contains('hidden');
+      if (isQuizVisible) {
+        const modal = document.getElementById('confirmModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      } else {
+        goToHome();
+      }
+    }
+
+    function closeConfirmModal() {
+      const modal = document.getElementById('confirmModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function confirmGoHomeAction() {
+      closeConfirmModal();
+      goToHome();
+    }
+
+    /**
+     * Menyimpan riwayat nilai ke localStorage browser
+     */
+    function saveHistory(entry) {
+      try {
+        const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        existing.unshift(entry);
+        // Simpan maksimal 15 riwayat terbaru
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(existing.slice(0, 15)));
+      } catch (e) {
+        // Abaikan jika storage penuh/diblokir
+      }
+    }
+
+    /**
+     * Merender riwayat nilai dari localStorage di layar awal
+     */
+    function renderHistory() {
+      const container = document.getElementById('historyContainer');
+      const btnClear = document.getElementById('btnClearHistory');
+      let list = [];
+
+      try {
+        list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      } catch (e) {
+        list = [];
+      }
+
+      if (list.length === 0) {
+        btnClear.classList.add('hidden');
+        container.innerHTML = `<p class="text-xs text-slate-400 italic">Belum ada riwayat kuis tersimpan di HP ini.</p>`;
+        return;
+      }
+
+      btnClear.classList.remove('hidden');
+      container.innerHTML = '';
+
+      list.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200';
+        const passed = item.score >= 80;
+        row.innerHTML = `
+          <div class="min-w-0 pr-2">
+            <p class="text-xs sm:text-sm font-bold text-slate-800 truncate">${item.name} <span class="font-normal text-slate-500">(${item.branch})</span></p>
+            <p class="text-[11px] text-slate-500 truncate">${item.pkgLabel} • ${item.date}</p>
+          </div>
+          <div class="shrink-0 text-right">
+            <span class="inline-block px-2.5 py-1 rounded-lg text-xs font-extrabold ${passed ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+              ${item.score} Poin (${item.correct}/${item.total})
+            </span>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    /**
+     * Menghapus riwayat skor lokal
+     */
+    function clearHistory() {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {}
+      renderHistory();
+      showToast('🗑️', 'Riwayat nilai di perangkat ini telah dihapus.');
+    }
+  </script>
+</body>
+</html>
